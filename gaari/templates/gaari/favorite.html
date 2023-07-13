@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorite Vehicles</title>
+
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    {% load static %}
+    <link rel="shortcut icon" href="{% static "gaari/favicon.png" %}" type="image/x-icon">
+</head>
+<body class="text-center d-flex flex-column justify-content-center align-items-center">
+    <h2 class="mt-5">Your Favorited Vehicles</h2>
+    <div class="container m-5 border bg bg-success bg-opacity-50 rounded col-4 border-dark p-3">
+    {% if favorites %}
+        {% for fav_id in favorites %}
+        <ul>
+            <a href="{% url "gaari:autos_list" pk=fav_id %}" style="text-decoration: none">
+                {% for auto in autos %}
+                {% if auto.id == fav_id%}
+                {{ auto.nickname }}
+                {% endif %}
+                {% endfor %}
+            </a>
+        </ul>
+            {% endfor %}
+        </div>
+
+    {% else %}
+     <p>You have no Favorites.</p>
+     {% endif %}
+
+     <button onclick="window.location='{% url "gaari:home" %}'" class="btn btn-primary">Back</button>
+
+</body>
+</html>

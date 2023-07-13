@@ -1,0 +1,57 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaari</title>
+
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+    {% load static %}
+    <link rel="shortcut icon" href="{% static "gaari/favicon.png" %}" type="image/x-icon">
+</head>
+<body class="bg bg-success bg-opacity-50">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between">
+
+        <a class="navbar-brand ps-3" href="#">
+            <img src="{% static "gaari/favicon.png" %}" width="30" height="30" class="d-inline-block align-top" alt="">
+            Gaari
+          </a>
+
+        {% if user.is_authenticated %}
+        <div class="text-end">
+        <p class="me-5">Hi {{ user.username }}!  &emsp;   <a href="{% url 'logout' %}">Log Out</a></p>
+        </div>
+        {% else %}
+        <div class="text-end">
+        <p class="me-5">You are not logged in  &emsp; <a href="{% url 'login' %}">Log In</a></p>
+        </div>
+        {% endif %}
+    </nav>
+    <div class="container col-12 d-flex">
+
+        <div class="content col-10">
+            <img src="{% static "gaari/mehran.jpg" %}" alt="" class="mt-5">
+        </div>
+
+
+    <div class="menu col-2 text-center py-5 d-flex flex-column justify-content-center gap-1">
+        <p>Welcome to Gaari App!</p>
+
+        <button onclick="window.location='{% url "gaari:view_inbox" %}'">Inbox</button>
+        <button onclick="window.location='{% url "gaari:make" %}'">Edit Brands</button>
+        <button onclick="window.location='{% url "gaari:autos" %}'">Edit Vehicles</button>
+        <button onclick="window.location='{% url "gaari:view_favorite" %}'">View Favorites</button>
+
+        <br>
+    </div>
+
+
+
+</div>
+</body>
+</html>

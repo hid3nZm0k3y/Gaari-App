@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brands</title>
+
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load bootstrap_icons %}
+
+
+    {% load static %}
+    <link rel="shortcut icon" href="{% static "gaari/favicon.png" %}" type="image/x-icon">
+</head>
+<body>
+
+    <div class="col-12 d-flex justify-content-center mt-5">
+        <form>
+            <input type="text" placeholder="Search.." name="search" 
+            {% if search %} value = {{search}} {% endif %}>
+    
+            <button type="submit">Search</button>
+            &emsp;
+            <a href="{% url "gaari:make" %}" >{% bs_icon 'arrow-counterclockwise' %}</a>
+        </form>
+        </div>
+        
+    <div class="col-12 d-flex justify-content-center">
+    {% if make_list %}
+    <ol class="border border-1 m-5 col-8" >
+    {% for make in make_list %}
+            <li class="p-3">
+                {% if make.image %}
+                <img src="{{make.image.url}}" alt="" style="object-fit: cover; 
+                width: 50px;
+                height: 50px;" class="border border-dark">
+                {% endif %}
+                &emsp;
+                {{ make.name }}
+                (<a href="{% url 'gaari:make_update' make.id %}">Update</a> |
+                 <a href="{% url 'gaari:make_delete' make.id %}">Delete</a>)</li>
+    {% endfor %}
+    </ol>
+</div>
+    
+
+    {% else %}
+    <p>There are no Brands in the library.</p>
+    {% endif %}
+    <div class="col-12 d-flex justify-content-center mb-5">
+    <form action="" method="POST" enctype="multipart/form-data" >
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="Submit">
+        <input type="submit" onclick="window.location='{% url 'gaari:home' %}' ; return false;" value="Back">
+    </form>
+</div>
+</body>
+</html>

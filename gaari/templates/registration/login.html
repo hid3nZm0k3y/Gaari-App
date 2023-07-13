@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load bootstrap_icons %}
+
+</head>
+<body class="d-flex justify-content-center">
+    <div class="container col-4 mt-5 shadow rounded p-3">
+
+    {% if form.errors %}
+    <p>Your Username and Password didn't match, Please try again.</p>
+    {% endif %}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+        <p>You do not have access!</p>
+        {% else %}
+        <p>Please login to see the site.</p>
+        {% endif %}
+    {% endif %}
+
+    <form action="{% url "login" %}" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+
+        <input type="submit" value="Login">
+        <input type="hidden" name="next" value="{{next}}">
+        <button onclick="window.location='{% url "gaari:home" %}'">Back</button>
+
+    </form>
+</div>
+
+</body>
+</html>

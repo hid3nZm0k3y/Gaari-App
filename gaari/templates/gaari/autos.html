@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicles</title>
+
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load bootstrap_icons %}
+
+
+    {% load static %}
+    <link rel="shortcut icon" href="{% static "gaari/favicon.png" %}" type="image/x-icon">
+</head>
+<body>
+
+    {% if autos_list %}
+
+    
+    <div class="col-12 d-flex justify-content-center mt-5">
+        <form>
+            <input type="text" placeholder="Search.." name="search" 
+            {% if search %} value = {{search}} {% endif %}>
+    
+            <button type="submit">Search</button>
+            &emsp;
+            <a href="{% url "gaari:autos" %}" >{% bs_icon 'arrow-counterclockwise' %}</a>
+        </form>
+        </div>
+
+    <ol class="border border-dark m-5 bg bg-light bg-opacity-50 ">
+    {% for auto in autos_list %}
+    <li class="m-2">
+        {% if auto.image %}
+                <img src="{{auto.image.url}}" alt="" style="object-fit: cover; 
+                width: 80px;
+                height: 80px;" class="mx-5">
+        {% endif %}
+        <a href="{% url 'gaari:autos_list' auto.id %}" class="h5 text-primary" style="text-decoration: none">{{ auto }}</a>
+        &emsp;
+        (<a href="{% url 'gaari:autos_update' auto.id %}" >Update</a> |
+         <a href="{% url 'gaari:autos_delete' auto.id %}">Delete</a>)</li>
+    {% endfor %}
+    </ol>
+    {% else %}
+    <p>There are no Cars in the library.</p>
+    {% endif %}
+
+    {% load crispy_forms_tags %}
+    <div class="col-12 d-flex justify-content-center">
+    <form action="" method="POST" class="col-4 text-center border border-1 p-5 mb-5" enctype="multipart/form-data" >
+        {% csrf_token %}
+        {{form|crispy}}
+        <input type="submit" value="Submit" class="mt-5">
+        <input type="submit" onclick="window.location='{% url 'gaari:home' %}' ; return false;" value="Back">
+    </form>
+</div>
+</body>
+</body>
+</html>

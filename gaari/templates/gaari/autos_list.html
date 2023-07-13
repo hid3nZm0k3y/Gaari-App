@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Info</title>
+
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load bootstrap_icons %}
+
+    {% load static %}
+    <link rel="shortcut icon" href="{% static "gaari/favicon.png" %}" type="image/x-icon">
+
+</head>
+<body class="text-center ">
+    <h1>Vehicle Info</h1>
+    {% if auto %}
+    <div class="container col-9 mt-5">
+      <ul style="list-style: none">
+        <hr>
+        <li>
+          <img src="{{auto.image.url}}" alt="" style="max-width:30%">
+            <p>Nickname: {{auto.nickname}}</p>
+            <p>Mileage: {{auto.mileage}}</p>
+            <p>Brand: {{auto.make}}</p>
+            <p>Comment: {{auto.comments}}</p>
+        </li>
+      </ul>
+        <hr>
+    </div>
+    {% else %}
+    <p>This Vehicle does not exist!</p>
+    {% endif %}
+      <a href="{% url "gaari:favorite" pk=auto.id %}" class="btn btn-primary" style="text-decoration: none">
+        {% bs_icon 'bookmark-star' %} {% if auto.id in favorites%}Unfavorite {% else %} Favorite  {% endif %}</a>
+      <input type="submit" onclick="window.location='{% url 'gaari:autos' %}' ; return false;" value="Back" class="btn btn-primary">
+
+
+
+      <div class="container col-9 mt-5 text-start">
+        {% if reviews %} 
+        {% for review in reviews %}
+        {% if review.auto == auto %}       
+
+        <div class="border border-1 rounded my-3">
+        <p class=" border-bottom bg bg-success bg-opacity-50 ps-3 d-flex justify-content-between">Username: {{review.username}}
+          &emsp;  ({{review.created_on}}) 
+
+           <a href="{% url "gaari:review_delete" pk=auto.id review_pk=review.id %}">{% bs_icon 'trash' %}</a>
+  </p>
+
+        <p class="ps-3">{{review.content}}</p>
+      </div>
+      {% endif %}
+        {% endfor %}
+
+        <button onclick="window.location='{% url "gaari:review" auto.id %}'" class="mb-5 btn-primary rounded">Review</button>
+
+    </form>
+    {% else %}
+      <p>No Reviews Yet!</p>
+      <button onclick="window.location='{% url "gaari:review" auto.id %}'" class="mb-5 btn btn-primary rounded">Review</button>
+
+      {% endif %}
+      </div>
+    </body>
+</html>

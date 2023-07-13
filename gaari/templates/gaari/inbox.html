@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorite Vehicles</title>
+
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load bootstrap_icons %}
+
+    {% load static %}
+    <link rel="shortcut icon" href="{% static "gaari/favicon.png" %}" type="image/x-icon">
+    {% load crispy_forms_tags %}
+
+</head>
+<body class="text-center d-flex flex-column justify-content-center align-items-center">
+    <button onclick="window.location='{% url "gaari:home" %}'" class="btn btn-primary mt-5">Back</button>
+    <h2 class="mt-5">Your Messages</h2>
+
+    <div class="container m-5 border bg bg-success bg-opacity-50 rounded col-8 border-dark p-3 text-start">
+    {% if messages %}
+    <ol>
+        {% for message in messages %}
+            <li class="d-flex justify-content-around mb-1">
+                <div class="col-4">
+                {{message.sender}}
+                ({{message.created_on}})
+                <a href="{% url "gaari:message_delete" pk=message.id %}">{% bs_icon 'trash' %}</a>
+            </div>
+            <div class="col-8">
+                Message: &emsp; {{message.content}}
+            </div>
+            </li>
+            <hr>
+            {% endfor %}
+        </ol>
+        </div>
+
+    {% else %}
+     <p>You have no Messages.</p>
+     {% endif %}
+
+    </div>
+     <div class="shadow p-5 mb-5">
+        <p>Send a message.</p>
+
+        <form method="post">
+            {% csrf_token %}
+        {{form|crispy}}
+        <input type="submit" class="btn btn-primary mt-3" value="Submit">
+    </form>
+     </div>
+</body>
+</html>
